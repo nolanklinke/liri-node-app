@@ -16,10 +16,8 @@ var input = process.argv[2];
 var nodeArgs = process.argv;
 var search = "";
 
-
-
-if (input == "my-tweets") {
-
+//functions
+function myTweets() {
     console.log("This is where tweets will go:");
 
     client.get('/statuses/user_timeline.json', {limit: 20}, function(error, tweets, response) {
@@ -29,13 +27,11 @@ if (input == "my-tweets") {
 
             console.log("\nTweet: " + tweets[i].text); 
             console.log("Created at: " + tweets[i].created_at);
-        }
-        
+        }       
       });
-    
+};
 
-} else if (input == "spotify-this-song") {
-
+function spotifyThisSong() {
     for (var i = 3; i < nodeArgs.length; i++) {
         search += nodeArgs[i] + " ";
     };
@@ -57,7 +53,6 @@ if (search) {
         console.log("Preview Link: " + songInfo.preview_url);
         console.log("Album Name: " + songInfo.album.name);
         };
-
     });
 
 } else { 
@@ -70,28 +65,22 @@ if (search) {
         console.log("Preview Link: " + songInfo.preview_url);
         console.log("Album Name: " + songInfo.album.name);
     }
-
 )};
-  
+};
 
-} else if (input == "movie-this") {
-
+function movieThis() {
     for (var i = 3; i < nodeArgs.length; i++) {
         search += nodeArgs[i] + " ";
-
     };
 
-    
 if (search) {
 
     console.log("Searching for: " + search);
 
 request("http://www.omdbapi.com/?t="+ search + "&y=&plot=short&apikey=trilogy", function(error, response, body) {
 
-
   if (!error && response.statusCode === 200) {
 
-    
     console.log("\n--------");
     console.log("Title: " + JSON.parse(body).Title);
     console.log("Year: " + JSON.parse(body).Year);
@@ -129,8 +118,19 @@ request("http://www.omdbapi.com/?t="+ search + "&y=&plot=short&apikey=trilogy", 
           console.log("Actor(s): " + JSON.parse(body).Actors);
         } 
       });
-
 }
+};
+
+
+
+if (input == "my-tweets") {
+    myTweets();
+    
+} else if (input == "spotify-this-song") {
+    spotifyThisSong();
+
+} else if (input == "movie-this") {
+    movieThis();
 
 } else if (input == "do-what-it-says") {
 
@@ -151,6 +151,4 @@ request("http://www.omdbapi.com/?t="+ search + "&y=&plot=short&apikey=trilogy", 
         console.log(dataArr[1]);
       
       });
-      
-
 };
