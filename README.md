@@ -21,4 +21,4 @@ Users can utilize spotify-this-son and movie-this to search for a particular son
 do-what-it-says will read the random.txt file and run the appropriate function response depending on what is written in that file.
 
 # GitHub Link
-https://github.com/nolanklinke/liri-node-app
+[GitHub](https://github.com/nolanklinke/liri-node-app)
