@@ -16,6 +16,8 @@ var input = process.argv[2];
 var nodeArgs = process.argv;
 var search = "";
 
+
+
 if (input == "my-tweets") {
 
     console.log("This is where tweets will go:");
@@ -38,10 +40,9 @@ if (input == "my-tweets") {
         search += nodeArgs[i] + " ";
     };
         
-    console.log("Searching for: " + search);
-
 if (search) {
 
+    console.log("Searching for: " + search);
     
     spotify.search({ type: 'track', query: search }, function(err, data) {
         if ( err ) {
@@ -50,18 +51,27 @@ if (search) {
         }
         else if (search) {
         var songInfo = data.tracks.items[0];
-        console.log("\nArtist(s): " + songInfo.artists[0].name);
-        console.log("\nSong Name: " + songInfo.name);
-        console.log("\nPreview Link: " + songInfo.preview_url);
-        console.log("\nAlbum Name: " + songInfo.album.name);
+        console.log("\n--------");
+        console.log("Artist(s): " + songInfo.artists[0].name);
+        console.log("Song Name: " + songInfo.name);
+        console.log("Preview Link: " + songInfo.preview_url);
+        console.log("Album Name: " + songInfo.album.name);
         };
 
     });
 
 } else { 
-    console.log("NO");
+    
+    spotify.search({ type: 'track', query: "Ace of Base" }, function(err, data) {
+        var songInfo = data.tracks.items[0];
+        console.log("\n--------");
+        console.log("Artist(s): " + songInfo.artists[0].name);
+        console.log("Song Name: " + songInfo.name);
+        console.log("Preview Link: " + songInfo.preview_url);
+        console.log("Album Name: " + songInfo.album.name);
+    }
 
-} 
+)};
   
 
 } else if (input == "movie-this") {
@@ -82,7 +92,7 @@ request("http://www.omdbapi.com/?t="+ search + "&y=&plot=short&apikey=trilogy", 
   if (!error && response.statusCode === 200) {
 
     
-    console.log("\n--------")
+    console.log("\n--------");
     console.log("Title: " + JSON.parse(body).Title);
     console.log("Year: " + JSON.parse(body).Year);
     console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
@@ -125,5 +135,22 @@ request("http://www.omdbapi.com/?t="+ search + "&y=&plot=short&apikey=trilogy", 
 } else if (input == "do-what-it-says") {
 
     console.log("do what it says");
+
+    fs.readFile("random.txt", "utf8", function(error, data) {
+
+        if (error) {
+          return console.log(error);
+        }
+        
+        var dataArr = data.split(",");
+
+        input = dataArr[0];
+        search = dataArr[1];
+      
+        console.log(dataArr[0]);
+        console.log(dataArr[1]);
+      
+      });
+      
 
 };
