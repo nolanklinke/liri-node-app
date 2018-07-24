@@ -19,11 +19,16 @@ if (input == "my-tweets") {
 
     console.log("this is where tweets will go");
 
-    /*client.get('statuses/lookup', function(error, tweets, response) {
+    client.get('/statuses/user_timeline.json', {limit: 20}, function(error, tweets, response) {
         if(error) throw error;
-        console.log(tweets);  // The favorites.
-        console.log(response);  // Raw response object.
-      });*/
+
+        for (var i = 0; i < tweets.length; i++) {
+
+            console.log("\nTweet: " + tweets[i].text); 
+            console.log("Created at: " + tweets[i].created_at);
+        }
+        
+      });
     
 
 } else if (input == "spotify-this-song") {
@@ -33,20 +38,30 @@ if (input == "my-tweets") {
     };
         
     console.log("Searching for " + search);
+
+if (search) {
+
     
+    spotify.search({ type: 'track', query: search }, function(err, data) {
+        if ( err ) {
+            console.log('Error occurred: ' + err);
+            return;  
+        }
+        else if (search) {
+        var songInfo = data.tracks.items[0];
+        console.log("\nArtist(s): " + songInfo.artists[0].name);
+        console.log("\nSong Name: " + songInfo.name);
+        console.log("\nPreview Link: " + songInfo.preview_url);
+        console.log("\nAlbum Name: " + songInfo.album.name);
+        };
 
-    spotify
-    .search({ type: 'track', query: search, limit: 1 })
-    .then(function(response) {
-        var data = response;
-        console.log(JSON.stringify(data, null, 2));
-    })
-    .catch(function(err) {
-      console.log(err);
     });
-           
-          
 
+} else { 
+    console.log("NO");
+
+} 
+  
 
 } else if (input == "movie-this") {
 
