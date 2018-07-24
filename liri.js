@@ -146,9 +146,15 @@ if (input == "my-tweets") {
 
         input = dataArr[0];
         search = dataArr[1];
-      
-        console.log(dataArr[0]);
-        console.log(dataArr[1]);
-      
+
+        if (input == "my-tweets") {
+            myTweets();
+            
+        } else if (input == "spotify-this-song") {
+            spotifyThisSong();
+        
+        } else if (input == "movie-this") {
+            movieThis();
+        };
       });
 };
