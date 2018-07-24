@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 var fs = require('fs');
+var request = require("request");
 
 
 var keys = require("./keys.js")
@@ -17,7 +18,7 @@ var search = "";
 
 if (input == "my-tweets") {
 
-    console.log("this is where tweets will go");
+    console.log("This is where tweets will go:");
 
     client.get('/statuses/user_timeline.json', {limit: 20}, function(error, tweets, response) {
         if(error) throw error;
@@ -37,7 +38,7 @@ if (input == "my-tweets") {
         search += nodeArgs[i] + " ";
     };
         
-    console.log("Searching for " + search);
+    console.log("Searching for: " + search);
 
 if (search) {
 
@@ -70,7 +71,56 @@ if (search) {
 
     };
 
-    console.log(search);
+    
+if (search) {
+
+    console.log("Searching for: " + search);
+
+request("http://www.omdbapi.com/?t="+ search + "&y=&plot=short&apikey=trilogy", function(error, response, body) {
+
+
+  if (!error && response.statusCode === 200) {
+
+    
+    console.log("\n--------")
+    console.log("Title: " + JSON.parse(body).Title);
+    console.log("Year: " + JSON.parse(body).Year);
+    console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+    console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1]["Value"]);
+    console.log("Country Produced: " + JSON.parse(body).Country);
+    console.log("Language: " + JSON.parse(body).Language);
+    console.log("Plot: " + JSON.parse(body).Plot);
+    console.log("Actor(s): " + JSON.parse(body).Actors);
+  }
+  
+});
+
+} else {
+
+    console.log("Searching for: Mr. Nobody");
+
+    request("http://www.omdbapi.com/?t=mr.nobody&y=&plot=short&apikey=trilogy", function(error, response, body) {
+
+
+        if (!error && response.statusCode === 200) {
+            
+            console.log("\n--------")
+            console.log("If you haven't watched 'Mr. Nobody,' then you should: http://www.imdb.com/title/tt0485947/ \nIt's on Netflix!");
+      
+          
+          console.log("\n--------")
+          console.log("Title: " + JSON.parse(body).Title);
+          console.log("Year: " + JSON.parse(body).Year);
+          console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+          console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1]["Value"]);
+          console.log("Country Produced: " + JSON.parse(body).Country);
+          console.log("Language: " + JSON.parse(body).Language);
+          console.log("Plot: " + JSON.parse(body).Plot);
+          console.log("Actor(s): " + JSON.parse(body).Actors);
+        } 
+      });
+
+}
 
 } else if (input == "do-what-it-says") {
 
